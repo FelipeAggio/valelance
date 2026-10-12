@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><!-- rascunho: tirar quando lançar -->
+<title>Vale Lance · Licitações que valem o seu lance</title>
+<meta name="description" content="Alertas diários de licitações para pequenas empresas de limpeza, saúde e alimentação. Exclusivas ME/EPP, perto de você, com o edital resumido em uma página.">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjEzIC02NiA2MDAgNjAwIj4KICA8cG9seWdvbiBwb2ludHM9IjMwLDEyNSAxOTAsMTI1IDM1MCwzOTAgMzIwLDQ0MCAyMTUsNDQwIiBzdHJva2Utd2lkdGg9IjE2IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSIjMDA0MkQ1IiBzdHJva2U9IiMwMDQyRDUiLz4KICA8cG9seWdvbiBwb2ludHM9IjQ2MCwyOCA1OTUsMjggMzcyLDM1NSAzMTAsMjUwIiBzdHJva2Utd2lkdGg9IjE2IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSIjRkY2NzBGIiBzdHJva2U9IiNGRjY3MEYiLz4KPC9zdmc+Cg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #0042D5; --laranja: #FF670F; --tinta: #0A1433; --tinta-2: #4A5168; --papel: #F6F4EF; --papel-2: #ECE8DF;
+    --linha: #D9D4C8; --branco: #FFFFFF; --verde-zap: #DCF8C6;
+    --titulo: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --corpo: system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--papel); color: var(--tinta); font: 17px/1.55 var(--corpo); }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-family: var(--titulo); line-height: 1.05; letter-spacing: -0.02em; margin: 0; }
+  .btn { display: inline-block; background: var(--tinta); color: var(--branco); text-decoration: none; font-weight: 600;
+         padding: 14px 22px; border-radius: 6px; }
+  .btn:hover { background: var(--azul); }
+  .btn.claro { background: transparent; color: var(--tinta); border: 1.5px solid var(--tinta); }
+  .mono { font-family: var(--mono); }
+
+  /* topo */
+  header { border-bottom: 1px solid var(--linha); }
+  header .wrap { display: flex; align-items: center; gap: 28px; height: 68px; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 800 21px var(--titulo); letter-spacing: -0.02em; }
+  .marca svg { width: 30px; height: 30px; }
+  .marca b { color: var(--azul); font-weight: 800; }
+  nav { margin-left: auto; display: flex; gap: 24px; font-size: 15px; }
+  nav a { text-decoration: none; color: var(--tinta-2); }
+  nav a:hover { color: var(--tinta); }
+  header .btn { padding: 10px 16px; font-size: 15px; }
+
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; padding: 72px 24px 64px; }
+  .hero h1 { font-size: clamp(40px, 6vw, 68px); font-weight: 800; }
+  .hero h1 em { font-style: normal; color: var(--azul); }
+  .hero h1 .risco { position: relative; white-space: nowrap; }
+  .hero h1 .risco::after { content: ""; position: absolute; left: -2px; right: -2px; bottom: 0.06em; height: 0.16em;
+                           background: var(--laranja); transform: rotate(-1.2deg); z-index: -1; border-radius: 2px; }
+  .hero p.lead { font-size: 20px; color: var(--tinta-2); max-width: 34em; margin: 24px 0 32px; }
+  .hero .acoes { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .hero .nota { font-size: 14px; color: var(--tinta-2); margin-top: 14px; }
+
+  /* celular com o alerta */
+  .zap { background: #E5DDD5; border-radius: 22px; padding: 18px 14px 22px; border: 8px solid var(--tinta);
+         max-width: 360px; margin-left: auto; transform: rotate(1.5deg); }
+  .zap .contato { display: flex; align-items: center; gap: 8px; font: 600 14px var(--corpo); margin: 0 4px 12px; }
+  .zap .contato svg { width: 26px; height: 26px; background: var(--branco); border-radius: 50%; padding: 3px; }
+  .balao { background: var(--verde-zap); border-radius: 8px; padding: 10px 12px; font-size: 14px; line-height: 1.45;
+           margin-bottom: 8px; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
+  .balao b { display: block; }
+  .balao .meta { color: #43524A; font-size: 13px; }
+  .selo { display: inline-block; font: 600 11px var(--mono); color: var(--azul); border: 1px solid var(--azul);
+          border-radius: 3px; padding: 0 5px; margin-right: 4px; vertical-align: 1px; }
+  .balao .hora { float: right; font-size: 11px; color: #6B7A72; margin: 4px 0 0 8px; }
+
+  /* números */
+  .numeros { border-top: 1px solid var(--linha); border-bottom: 1px solid var(--linha); background: var(--branco); }
+  .numeros .wrap { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .numeros div.n { padding: 28px 24px 26px 0; }
+  .numeros div.n + div.n { padding-left: 24px; border-left: 1px solid var(--linha); }
+  .numeros strong { display: block; font: 800 44px var(--titulo); letter-spacing: -0.03em; }
+  .numeros span { color: var(--tinta-2); font-size: 15px; }
+  .fonte { font-size: 13px; color: var(--tinta-2); padding: 10px 0 0; }
+
+  section { padding: 88px 0; }
+  .rotulo { font: 500 13px var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--laranja); margin-bottom: 14px; }
+  h2 { font-size: clamp(32px, 4.2vw, 48px); font-weight: 800; max-width: 18em; }
+
+  /* passos */
+  .passos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 48px; border-top: 2px solid var(--tinta); }
+  .passo { padding: 22px 28px 0 0; }
+  .passo + .passo { padding-left: 28px; border-left: 1px solid var(--linha); }
+  .passo .num { font: 500 14px var(--mono); color: var(--tinta-2); }
+  .passo h3 { font-size: 24px; margin: 10px 0 10px; }
+  .passo p { margin: 0; color: var(--tinta-2); }
+
+  /* edital em 1 página */
+  .edital { background: var(--papel-2); }
+  .edital .wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: center; }
+  .edital p { color: var(--tinta-2); font-size: 18px; max-width: 30em; }
+  .folha { background: var(--branco); border: 1px solid var(--linha); padding: 30px 32px 28px; position: relative;
+           box-shadow: 8px 8px 0 var(--tinta); font-size: 15px; }
+  .folha .cab { font: 500 12px var(--mono); color: var(--tinta-2); border-bottom: 1px dashed var(--linha); padding: 0 150px 12px 0; margin-bottom: 14px; }
+  .folha h3 { font-size: 22px; margin-bottom: 14px; max-width: 15em; }
+  .folha dl { display: grid; grid-template-columns: 140px 1fr; gap: 8px 14px; margin: 0; }
+  .folha dt { font: 500 12px var(--mono); color: var(--tinta-2); text-transform: uppercase; padding-top: 3px; }
+  .folha dd { margin: 0; }
+  .folha .ok::before { content: "✓ "; color: #1B7F3B; font-weight: 700; }
+  .folha .atencao::before { content: "! "; color: var(--laranja); font-weight: 700; }
+  .carimbo { position: absolute; top: 22px; right: 22px; transform: rotate(-8deg); border: 3px solid var(--azul);
+             color: var(--azul); font: 800 18px var(--titulo); padding: 6px 12px 4px; border-radius: 6px; letter-spacing: 0.02em;
+             text-transform: uppercase; opacity: .9; }
+
+  /* diferença */
+  .compara { width: 100%; border-collapse: collapse; margin-top: 40px; font-size: 16px; }
+  .compara th, .compara td { text-align: left; padding: 16px 12px; border-bottom: 1px solid var(--linha); vertical-align: top; }
+  .compara th { font: 500 13px var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--tinta-2); }
+  .compara td:first-child { font-weight: 600; width: 34%; }
+  .compara td:nth-child(2) { color: var(--tinta-2); }
+  .compara td:nth-child(3) { background: rgba(0, 66, 213, .05); }
+
+  /* piloto */
+  .piloto { background: var(--tinta); color: var(--papel); }
+  .piloto .wrap { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: end; }
+  .piloto h2 { color: var(--branco); }
+  .piloto p { color: #C4C8D6; font-size: 18px; max-width: 32em; }
+  .piloto .btn { background: var(--laranja); color: var(--tinta); }
+  .piloto .btn:hover { background: var(--branco); }
+  .piloto ul { margin: 0; padding: 0; list-style: none; font-size: 16px; }
+  .piloto li { padding: 10px 0; border-bottom: 1px solid #2A3355; }
+  .piloto li::before { content: "— "; color: var(--laranja); }
+
+  /* perguntas */
+  details { border-bottom: 1px solid var(--linha); padding: 18px 0; }
+  details:first-of-type { border-top: 1px solid var(--linha); margin-top: 36px; }
+  summary { cursor: pointer; font: 700 20px var(--titulo); list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-family: var(--mono); color: var(--tinta-2); }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--tinta-2); margin: 12px 0 0; max-width: 46em; }
+
+  footer { border-top: 1px solid var(--linha); padding: 36px 0 48px; font-size: 14px; color: var(--tinta-2); }
+  footer .wrap { display: flex; gap: 24px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+
+  /* monitor grande: amplia tudo na mesma proporção em vez de deixar uma coluna estreita no meio */
+  @media (min-width: 1600px) { html { zoom: 1.15; } }
+  @media (min-width: 1900px) { html { zoom: 1.3; } }
+  @media (min-width: 2300px) { html { zoom: 1.55; } }
+  @media (min-width: 3200px) { html { zoom: 2; } }
+
+  @media (max-width: 860px) {
+    nav { display: none; }
+    .hero, .edital .wrap, .piloto .wrap { grid-template-columns: 1fr; gap: 40px; }
+    .hero { padding-top: 44px; }
+    .zap { margin: 0 auto; }
+    .numeros .wrap, .passos { grid-template-columns: 1fr; }
+    .numeros div.n + div.n, .passo + .passo { padding-left: 0; border-left: 0; border-top: 1px solid var(--linha); }
+    .passo { padding: 22px 0; }
+    .folha dl { grid-template-columns: 1fr; gap: 2px; }
+    .folha dd { margin-bottom: 8px; }
+    .carimbo { position: static; display: inline-block; margin-bottom: 12px; }
+    .folha .cab { padding-right: 0; }
+    .compara td:first-child { width: auto; }
+    section { padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="13 -66 600 600">
+    <polygon points="30,125 190,125 350,390 320,440 215,440" stroke-width="16" stroke-linejoin="round" fill="#0042D5" stroke="#0042D5"/>
+    <polygon points="460,28 595,28 372,355 310,250" stroke-width="16" stroke-linejoin="round" fill="#FF670F" stroke="#FF670F"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="wrap">
+    <a class="marca" href="#"><svg><use href="#logo"/></svg><span><b>Vale</b> Lance</span></a>
+    <nav>
+      <a href="#como">Como funciona</a>
+      <a href="#edital">Edital em 1 página</a>
+      <a href="#perguntas">Perguntas</a>
+    </nav>
+    <a class="btn" href="#piloto">Testar grátis</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <h1>Licitação boa existe. O difícil é <span class="risco">achar a sua</span>.</h1>
+      <p class="lead">Toda manhã, no seu WhatsApp, as licitações de <strong>limpeza, saúde e alimentação</strong> abertas perto de você,
+        com destaque para as <strong>exclusivas para ME/EPP</strong>. E o edital resumido em uma página, pra você decidir em minutos.</p>
+      <div class="acoes">
+        <a class="btn" href="#piloto">Quero testar 4 semanas grátis</a>
+        <a class="btn claro" href="#edital">Ver um exemplo</a>
+      </div>
+      <p class="nota">Sem cartão, sem contrato. Feito para quem vende para prefeitura, estado e hospital público.</p>
+    </div>
+
+    <div class="zap" aria-label="Exemplo de alerta no WhatsApp">
+      <div class="contato"><svg><use href="#logo"/></svg> Vale Lance</div>
+      <div class="balao">Bom dia! 3 licitações novas pra você hoje, a até 100 km de Campinas.<span class="hora">07:02</span></div>
+      <div class="balao">
+        <span class="selo">ME/EPP</span><b>Materiais de limpeza · Hortolândia/SP</b>
+        <span class="meta">16 km · R$ 929.850 estimado · encerra 13/10, 9h</span>
+        <span class="hora">07:02</span>
+      </div>
+      <div class="balao">
+        <span class="selo">ME/EPP</span><b>Higiene e cuidado pessoal · Sorocaba/SP</b>
+        <span class="meta">76 km · valor sigiloso · encerra 13/10, 8h</span>
+        <span class="hora">07:02</span>
+      </div>
+      <div class="balao">Quer o resumo do edital de alguma? Responde com o número.<span class="hora">07:03</span></div>
+    </div>
+  </div>
+
+  <div class="numeros">
+    <div class="wrap">
+      <div class="n"><strong>4.478</strong><span>licitações abertas num só dia, só nesses 3 setores</span></div>
+      <div class="n"><strong>1.696</strong><span>com reserva para ME/EPP: você disputa só com empresa do seu tamanho</span></div>
+      <div class="n"><strong>R$ 17,9 bi</strong><span>em valor estimado esperando proposta</span></div>
+    </div>
+  </div>
+  <div class="wrap"><p class="fonte">Fonte: Portal Nacional de Contratações Públicas (PNCP), levantamento de 09/10/2026.</p></div>
+
+  <section id="como">
+    <div class="wrap">
+      <div class="rotulo">Como funciona</div>
+      <h2>Você vende. A gente procura, filtra e lê o edital.</h2>
+      <div class="passos">
+        <div class="passo"><span class="num">01</span><h3>Diz o que vende e onde</h3>
+          <p>Setor, cidade e até quantos km você consegue entregar. Leva dois minutos, pelo próprio WhatsApp.</p></div>
+        <div class="passo"><span class="num">02</span><h3>A gente garimpa todo dia</h3>
+          <p>Lemos as licitações publicadas no PNCP, a base oficial do governo, e descartamos o que não é pra você.</p></div>
+        <div class="passo"><span class="num">03</span><h3>Você recebe só o que vale</h3>
+          <p>Uma mensagem por manhã. Pediu detalhe? Chega o edital resumido, com o que exigem e até quando.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="edital" id="edital">
+    <div class="wrap">
+      <div>
+        <div class="rotulo">Edital em 1 página</div>
+        <h2>Cem páginas de edital. Uma página de resposta.</h2>
+        <p>Antes de gastar uma tarde juntando documento, você sabe se a licitação vale o lance: o que pedem, o que pode te
+          eliminar e por quanto coisas parecidas foram compradas.</p>
+      </div>
+      <article class="folha" aria-label="Exemplo de resumo de edital">
+        <div class="cab">EXEMPLO ILUSTRATIVO · PREGÃO ELETRÔNICO · EXCLUSIVO ME/EPP</div>
+        <span class="carimbo">Vale o lance</span>
+        <h3>Materiais de limpeza para as escolas municipais</h3>
+        <dl>
+          <dt>Prazo</dt><dd>Propostas até sexta, 9h. Entrega em 15 dias após o pedido.</dd>
+          <dt>Valor</dt><dd>R$ 312.400 estimado, 38 itens. Dá pra cotar só os que você tem.</dd>
+          <dt>Documentos</dt><dd class="ok">CND federal, FGTS, trabalhista, contrato social e balanço. O básico.</dd>
+          <dt>Atenção</dt><dd class="atencao">Pede amostra de 4 itens em até 3 dias úteis após a disputa.</dd>
+          <dt>Preço</dt><dd>Papel toalha saiu a R$ 9,80 o fardo em compras parecidas da região.</dd>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="rotulo">O que muda</div>
+      <h2>Não é mais um e-mail com 200 licitações.</h2>
+      <table class="compara">
+        <thead><tr><th></th><th>Alerta comum</th><th>Vale Lance</th></tr></thead>
+        <tbody>
+          <tr><td>O que chega</td><td>Tudo que tem a palavra-chave</td><td>Só o que é do seu setor, conferido item por item</td></tr>
+          <tr><td>Distância</td><td>Filtro por estado</td><td>Até quantos km você entrega, a partir da sua cidade</td></tr>
+          <tr><td>Concorrência</td><td>Não diz</td><td>Marca as exclusivas para ME/EPP</td></tr>
+          <tr><td>Edital</td><td>Link para o PDF</td><td>Resumo de uma página com o que pode te eliminar</td></tr>
+          <tr><td>Onde chega</td><td>E-mail</td><td>WhatsApp, de manhã</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="piloto" id="piloto">
+    <div class="wrap">
+      <div>
+        <div class="rotulo">Piloto aberto</div>
+        <h2>Estamos escolhendo as primeiras 20 empresas.</h2>
+        <p>Quatro semanas grátis em troca da sua opinião sincera. O preço depois do piloto vai ser definido com quem participar.</p>
+        <a class="btn" href="https://wa.me/5541992379327?text=Quero%20testar%20o%20Vale%20Lance">Chamar no WhatsApp</a>
+      </div>
+      <ul>
+        <li>Limpeza, saúde ou alimentação</li>
+        <li>ME ou EPP que já vende ou quer vender para órgão público</li>
+        <li>Cinco minutos por semana pra dizer o que achou</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="perguntas">
+    <div class="wrap">
+      <div class="rotulo">Perguntas</div>
+      <h2>O que todo mundo pergunta.</h2>
+      <details><summary>Preciso ter experiência com licitação?</summary>
+        <p>Não. O resumo do edital foi pensado justamente pra quem está começando: diz o que pedem, em português claro, e o que costuma eliminar.</p></details>
+      <details><summary>De onde vêm as licitações?</summary>
+        <p>Do Portal Nacional de Contratações Públicas (PNCP), onde a Lei 14.133 obriga os órgãos a publicar. Municípios pequenos ainda estão entrando no portal até 2027.</p></details>
+      <details><summary>Vocês participam da licitação por mim?</summary>
+        <p>Não. A gente encontra e explica; a proposta e a decisão são suas. O resumo sempre aponta a página do edital, pra você conferir.</p></details>
+      <details><summary>Quanto vai custar?</summary>
+        <p>No piloto, nada. Depois, um valor mensal fixo que vamos definir junto com as empresas do piloto.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="marca" href="#"><svg><use href="#logo"/></svg><span><b>Vale</b> Lance</span></a>
+    <span>Dados públicos do PNCP · contato@valelance.com.br</span>
+  </div>
+</footer>
+</body>
+</html>
