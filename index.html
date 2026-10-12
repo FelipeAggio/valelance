@@ -132,6 +132,25 @@
   footer { border-top: 1px solid var(--linha); padding: 36px 0 48px; font-size: 14px; color: var(--tinta-2); }
   footer .wrap { display: flex; gap: 24px; flex-wrap: wrap; justify-content: space-between; align-items: center; }
 
+  /* teste agora */
+  .teste-form { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin-top: 36px; padding: 24px;
+                background: var(--branco); border: 1px solid var(--linha); border-radius: 8px; }
+  .teste-form label { display: flex; flex-direction: column; gap: 6px; font: 500 13px var(--mono); text-transform: uppercase;
+                      letter-spacing: .06em; color: var(--tinta-2); }
+  .teste-form select, .teste-form input { font: 17px var(--corpo); padding: 11px 12px; border: 1.5px solid var(--linha);
+                      border-radius: 6px; background: var(--papel); color: var(--tinta); min-width: 190px; }
+  #t-cidade { min-width: 260px; }
+  .teste-form .btn { border: 0; cursor: pointer; font: 600 17px var(--corpo); }
+  #t-resultado { margin-top: 28px; }
+  .t-resumo { font-size: 20px; max-width: 42em; margin: 0; }
+  .t-lista { list-style: none; padding: 0; margin: 20px 0; border-top: 2px solid var(--tinta); }
+  .t-lista li { padding: 16px 0; border-bottom: 1px solid var(--linha); display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; }
+  .t-lista .obj { font-weight: 600; }
+  .t-lista .meta { color: var(--tinta-2); font-size: 15px; }
+  .t-lista a { grid-row: 1 / span 2; grid-column: 2; align-self: center; color: var(--azul); font-weight: 600; white-space: nowrap; }
+  .t-cta { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .t-aviso { color: var(--laranja); font-weight: 600; }
+
   /* monitor grande: amplia tudo na mesma proporção em vez de deixar uma coluna estreita no meio */
   @media (min-width: 1600px) { html { zoom: 1.15; } }
   @media (min-width: 1900px) { html { zoom: 1.3; } }
@@ -151,6 +170,10 @@
     .carimbo { position: static; display: inline-block; margin-bottom: 12px; }
     .folha .cab { padding-right: 0; }
     .compara td:first-child { width: auto; }
+    .teste-form label, .teste-form .btn { width: 100%; }
+    .teste-form select, .teste-form input, #t-cidade { min-width: 0; width: 100%; }
+    .t-lista li { grid-template-columns: 1fr; }
+    .t-lista a { grid-row: auto; grid-column: 1; }
     section { padding: 64px 0; }
   }
 </style>
@@ -171,7 +194,7 @@
       <a href="#edital">Edital em 1 página</a>
       <a href="#perguntas">Perguntas</a>
     </nav>
-    <a class="btn" href="#piloto">Testar grátis</a>
+    <a class="btn" href="#teste">Testar agora</a>
   </div>
 </header>
 
@@ -182,7 +205,7 @@
       <p class="lead">Toda manhã, no seu WhatsApp, as licitações de <strong>limpeza, saúde e alimentação</strong> abertas perto de você,
         com destaque para as <strong>exclusivas para ME/EPP</strong>. E o edital resumido em uma página, pra você decidir em minutos.</p>
       <div class="acoes">
-        <a class="btn" href="#piloto">Quero testar 4 semanas grátis</a>
+        <a class="btn" href="#teste">Ver licitações perto de mim</a>
         <a class="btn claro" href="#edital">Ver um exemplo</a>
       </div>
       <p class="nota">Sem cartão, sem contrato. Feito para quem vende para prefeitura, estado e hospital público.</p>
@@ -213,6 +236,27 @@
     </div>
   </div>
   <div class="wrap"><p class="fonte">Fonte: Portal Nacional de Contratações Públicas (PNCP), levantamento de 09/10/2026.</p></div>
+
+  <section id="teste">
+    <div class="wrap">
+      <div class="rotulo">Teste agora</div>
+      <h2>Veja o que está aberto perto de você hoje.</h2>
+      <form class="teste-form" onsubmit="buscar(event)">
+        <label>Você vende
+          <select id="t-setor"><option value="limpeza">Limpeza e higiene</option><option value="saude">Saúde</option><option value="alimentacao">Alimentação</option></select>
+        </label>
+        <label>Sua cidade
+          <input id="t-cidade" list="t-cidades" placeholder="Ex.: Curitiba - PR" autocomplete="off" required>
+          <datalist id="t-cidades"></datalist>
+        </label>
+        <label>Entrega até
+          <select id="t-raio"><option value="50">50 km</option><option value="100">100 km</option><option value="150" selected>150 km</option><option value="300">300 km</option></select>
+        </label>
+        <button class="btn" type="submit">Ver licitações</button>
+      </form>
+      <div id="t-resultado" aria-live="polite"></div>
+    </div>
+  </section>
 
   <section id="como">
     <div class="wrap">
@@ -307,5 +351,50 @@
     <span>Dados públicos do PNCP · contato@valelance.com.br</span>
   </div>
 </footer>
+
+<script src="dados.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const ZAP = "5541992379327";
+const SETOR_TXT = {limpeza: "limpeza", saude: "saúde", alimentacao: "alimentação"};
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const brl = v => v.toLocaleString("pt-BR", {style: "currency", currency: "BRL", notation: v >= 1e6 ? "compact" : "standard", maximumFractionDigits: v >= 1e6 ? 1 : 0});
+// distância em linha reta (haversine)
+const km = (a, b) => { const r = Math.PI / 180, h = Math.sin((b[0] - a[0]) * r / 2) ** 2 +
+  Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin((b[1] - a[1]) * r / 2) ** 2; return 12742 * Math.asin(Math.sqrt(h)); };
+const AGORA = new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 16).replace("T", " ");
+const quando = s => `${s.slice(8, 10)}/${s.slice(5, 7)}, ${s.slice(11, 13)}h${s.slice(14, 16) === "00" ? "" : s.slice(14, 16)}`;
+
+if (typeof MUN !== "undefined") $("t-cidades").innerHTML = Object.keys(MUN).sort().map(k => `<option value="${esc(k)}">`).join("");
+
+function buscar(e) {
+  e.preventDefault();
+  const out = $("t-resultado");
+  if (typeof DADOS === "undefined") { out.innerHTML = '<p class="t-aviso">Os dados não carregaram. Tente de novo em instantes.</p>'; return; }
+  const setor = $("t-setor").value, cidade = $("t-cidade").value.trim(), raio = +$("t-raio").value, base = MUN[cidade];
+  if (!base) { out.innerHTML = '<p class="t-aviso">Escolha a cidade na lista que aparece ao digitar (ex.: Curitiba - PR).</p>'; return; }
+  const ls = DADOS.map(d => ({setor: d[0], uf: d[1], mun: d[2], obj: d[4], valor: parseFloat(d[5].replace(",", ".")) || 0,
+                              enc: d[6], link: d[7], me: d[8] === "exclusiva" || d[8] === "parcial",
+                              km: d[9] != null ? km(base, [d[9], d[10]]) : null}))
+    .filter(l => l.setor.split(",").includes(setor) && l.enc >= AGORA && l.km != null && l.km <= raio)
+    .sort((a, b) => a.enc.localeCompare(b.enc));
+  const nMe = ls.filter(l => l.me).length, total = ls.reduce((s, l) => s + l.valor, 0), nome = cidade.split(" - ")[0];
+  const texto = `Quero testar o Vale Lance: ${SETOR_TXT[setor]} perto de ${cidade}, até ${raio} km.`;
+  const cta = `<div class="t-cta"><a class="btn" href="https://wa.me/${ZAP}?text=${encodeURIComponent(texto)}">Quero receber isso todo dia no WhatsApp</a>
+    <span class="fonte">Grátis por 4 semanas no piloto.</span></div>`;
+  if (!ls.length) {
+    out.innerHTML = `<p class="t-resumo">Nenhuma licitação de ${SETOR_TXT[setor]} aberta a até ${raio} km de ${esc(nome)} agora. Tente uma distância maior.</p>`;
+    return;
+  }
+  out.innerHTML = `<p class="t-resumo"><strong>${ls.length} licitações de ${SETOR_TXT[setor]}</strong> abertas a até ${raio} km de ${esc(nome)}` +
+    (nMe ? `, <strong>${nMe} com reserva para ME/EPP</strong>` : "") + `. Somam ${brl(total)} em valor estimado.</p>
+    <ul class="t-lista">${ls.slice(0, 6).map(l => `<li>
+      <div class="obj">${l.me ? '<span class="selo">ME/EPP</span>' : ""}${esc(l.obj)}</div>
+      <div class="meta">${esc(l.mun)}/${esc(l.uf)} · ${Math.round(l.km)} km · ${l.valor ? brl(l.valor) : "valor sigiloso"} · encerra ${quando(l.enc)}</div>
+      <a href="${esc(l.link)}" target="_blank" rel="noopener">ver edital</a></li>`).join("")}</ul>
+    ${cta}
+    <p class="fonte">Mostrando as ${Math.min(6, ls.length)} que encerram primeiro. Dados públicos do PNCP, atualizados em ${GERADO_EM}.</p>`;
+}
+</script>
 </body>
 </html>
