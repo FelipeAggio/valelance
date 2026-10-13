@@ -152,11 +152,27 @@
   .t-cta { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
   .t-aviso { color: var(--laranja); font-weight: 600; }
 
-  /* monitor grande: amplia tudo na mesma proporção em vez de deixar uma coluna estreita no meio */
-  @media (min-width: 1600px) { html { zoom: 1.15; } }
-  @media (min-width: 1900px) { html { zoom: 1.3; } }
-  @media (min-width: 2300px) { html { zoom: 1.55; } }
-  @media (min-width: 3200px) { html { zoom: 2; } }
+  /* monitor grande: alarga a coluna e sobe as fontes. Sem CSS zoom: em navegadores com o zoom antigo
+     ele calculava a margem antes de ampliar e empurrava o site pra fora da tela. */
+  @media (min-width: 1600px) {
+    .wrap { max-width: 1320px; }
+    body { font-size: 18px; }
+    .hero h1 { font-size: 78px; }
+    .hero p.lead { font-size: 22px; }
+    h2 { font-size: 54px; }
+    .zap { max-width: 400px; }
+    .balao { font-size: 15px; }
+  }
+  @media (min-width: 2200px) {
+    .wrap { max-width: 1600px; }
+    body { font-size: 20px; }
+    .hero h1 { font-size: 96px; }
+    .hero p.lead { font-size: 25px; }
+    h2 { font-size: 64px; }
+    .zap { max-width: 460px; }
+    .balao { font-size: 17px; }
+    .numeros strong { font-size: 54px; }
+  }
 
   @media (max-width: 860px) {
     nav { display: none; }
