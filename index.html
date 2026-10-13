@@ -147,8 +147,13 @@
   .t-lista li { padding: 16px 0; border-bottom: 1px solid var(--linha); display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; }
   .t-lista .obj { font-weight: 600; }
   .t-lista .meta { color: var(--tinta-2); font-size: 15px; }
-  .t-lista .links { grid-row: 1 / span 2; grid-column: 2; align-self: center; display: flex; flex-direction: column; gap: 6px; }
-  .t-lista .links a { color: var(--azul); font-weight: 600; white-space: nowrap; }
+  .t-lista .links { grid-row: 1 / span 2; grid-column: 2; align-self: center; display: flex; flex-direction: column; gap: 8px; }
+  .t-lista .links a { font: 600 15px var(--corpo); text-decoration: none; text-align: center; white-space: nowrap;
+                      padding: 9px 16px; border-radius: 6px; border: 1.5px solid var(--azul); }
+  .t-lista .links .principal { background: var(--azul); color: var(--branco); }
+  .t-lista .links .principal:hover { background: var(--tinta); border-color: var(--tinta); }
+  .t-lista .links .secundario { color: var(--azul); background: transparent; }
+  .t-lista .links .secundario:hover { background: var(--azul); color: var(--branco); }
   .t-cta { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
   .t-aviso { color: var(--laranja); font-weight: 600; }
 
@@ -259,14 +264,14 @@
       <div class="rotulo">Teste agora</div>
       <h2>Veja o que está aberto perto de você hoje.</h2>
       <form class="teste-form" onsubmit="buscar(event)">
-        <label>Você vende
+        <label>Atividade
           <select id="t-setor"><option value="limpeza">Limpeza e higiene</option><option value="saude">Saúde</option><option value="alimentacao">Alimentação</option></select>
         </label>
-        <label>Sua cidade
+        <label>Localização
           <input id="t-cidade" list="t-cidades" placeholder="Ex.: Curitiba - PR" autocomplete="off" required>
           <datalist id="t-cidades"></datalist>
         </label>
-        <label>Entrega até
+        <label>Raio de entrega
           <select id="t-raio"><option value="50">50 km</option><option value="100">100 km</option><option value="150" selected>150 km</option><option value="300">300 km</option></select>
         </label>
         <button class="btn" type="submit">Ver licitações</button>
@@ -398,6 +403,15 @@ function ics(l) {
     "END:VEVENT", "END:VCALENDAR"];
   return "data:text/calendar;charset=utf-8," + encodeURIComponent(linhas.join("\r\n"));
 }
+// o PNCP manda objeto em CAIXA ALTA, minúscula ou misto: normaliza pra "Primeira maiúscula, resto como veio"
+const SIGLAS = /\b(me\/epp|epp|srp|pncp|ufpr|chc|epi|ti|uti|spi|ses|cnpj|pnae|ata|rp)\b/gi;
+function frase(s) {
+  s = String(s || "").trim();
+  const letras = s.replace(/[^A-Za-zÀ-ÿ]/g, "");
+  if (letras && letras === letras.toUpperCase())  // tudo em CAIXA ALTA: baixa e devolve as siglas conhecidas
+    s = s.toLowerCase().replace(SIGLAS, m => m.toUpperCase());
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 const quando = s => `${s.slice(8, 10)}/${s.slice(5, 7)}, ${s.slice(11, 13)}h${s.slice(14, 16) === "00" ? "" : s.slice(14, 16)}`;
 
 if (typeof MUN !== "undefined") $("t-cidades").innerHTML = Object.keys(MUN).sort().map(k => `<option value="${esc(k)}">`).join("");
@@ -424,10 +438,10 @@ function buscar(e) {
   out.innerHTML = `<p class="t-resumo"><strong>${ls.length} licitações de ${SETOR_TXT[setor]}</strong> abertas a até ${raio} km de ${esc(nome)}` +
     (nMe ? `, <strong>${nMe} com reserva para ME/EPP</strong>` : "") + `. Somam ${brl(total)} em valor estimado.</p>
     <ul class="t-lista">${ls.slice(0, 6).map(l => `<li>
-      <div class="obj">${l.me ? '<span class="selo">ME/EPP</span>' : ""}${esc(l.obj)}</div>
+      <div class="obj">${l.me ? '<span class="selo">ME/EPP</span>' : ""}${esc(frase(l.obj))}</div>
       <div class="meta">${esc(l.mun)}/${esc(l.uf)} · ${Math.round(l.km)} km · ${l.valor ? brl(l.valor) : "valor sigiloso"} · disputa ${quando(l.enc)}${l.portal ? ` (${esc(l.portal)})` : ""}</div>
-      <div class="links"><a href="${esc(l.link)}" target="_blank" rel="noopener">ver edital</a>
-        <a href="${ics(l)}" download="disputa-vale-lance.ics">lembrar da disputa</a></div></li>`).join("")}</ul>
+      <div class="links"><a class="principal" href="${esc(l.link)}" target="_blank" rel="noopener">Ver edital</a>
+        <a class="secundario" href="${ics(l)}" download="disputa-vale-lance.ics">Lembrar da disputa</a></div></li>`).join("")}</ul>
     ${cta}
     <p class="fonte">Mostrando as ${Math.min(6, ls.length)} que encerram primeiro. Dados públicos do PNCP, atualizados em ${GERADO_EM}.</p>`;
 }
