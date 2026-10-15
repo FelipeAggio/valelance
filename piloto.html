@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Vale Lance · Como funciona o piloto</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjEzIC02NiA2MDAgNjAwIj4KICA8cG9seWdvbiBwb2ludHM9IjMwLDEyNSAxOTAsMTI1IDM1MCwzOTAgMzIwLDQ0MCAyMTUsNDQwIiBzdHJva2Utd2lkdGg9IjE2IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSIjMDA0MkQ1IiBzdHJva2U9IiMwMDQyRDUiLz4KICA8cG9seWdvbiBwb2ludHM9IjQ2MCwyOCA1OTUsMjggMzcyLDM1NSAzMTAsMjUwIiBzdHJva2Utd2lkdGg9IjE2IiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSIjRkY2NzBGIiBzdHJva2U9IiNGRjY3MEYiLz4KPC9zdmc+Cg==">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #0042D5; --laranja: #FF670F; --tinta: #0A1433; --tinta-2: #4A5168; --papel: #F6F4EF;
+    --linha: #D9D4C8; --branco: #FFFFFF; --verde: #1B7F3B;
+    --titulo: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --corpo: system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--papel); color: var(--tinta); font: 17px/1.6 var(--corpo); }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  h1, h2 { font-family: var(--titulo); line-height: 1.1; letter-spacing: -0.02em; margin: 0; }
+  h1 { font-size: clamp(32px, 5vw, 46px); font-weight: 800; }
+  h2 { font-size: 26px; font-weight: 700; margin: 48px 0 16px; }
+  p { margin: 0 0 16px; }
+  a { color: var(--azul); }
+  header { border-bottom: 1px solid var(--linha); }
+  header .wrap { display: flex; align-items: center; gap: 10px; height: 68px; }
+  .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 800 21px var(--titulo); color: var(--tinta); }
+  .marca svg { width: 30px; height: 30px; }
+  .marca b { color: var(--azul); }
+  main { padding: 56px 0 72px; }
+  .rotulo { font: 500 13px var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--laranja); margin-bottom: 14px; }
+  .lead { font-size: 20px; color: var(--tinta-2); margin: 20px 0 0; }
+  ul { margin: 0 0 16px; padding-left: 0; list-style: none; }
+  li { padding: 10px 0 10px 30px; border-bottom: 1px solid var(--linha); position: relative; }
+  li::before { content: "✓"; position: absolute; left: 0; color: var(--verde); font-weight: 700; }
+  ul.nao li::before { content: "✕"; color: var(--laranja); }
+  .caixa { background: var(--branco); border: 1px solid var(--linha); border-radius: 8px; padding: 22px 26px; margin: 24px 0; }
+  .caixa h2 { margin-top: 0; font-size: 20px; }
+  .passo { display: grid; grid-template-columns: 34px 1fr; gap: 0 14px; padding: 12px 0; border-bottom: 1px solid var(--linha); }
+  .passo .n { font: 500 14px var(--mono); color: var(--tinta-2); padding-top: 3px; }
+  .passo b { display: block; }
+  .passo span { color: var(--tinta-2); }
+  .aviso { border-left: 3px solid var(--laranja); padding: 4px 0 4px 18px; color: var(--tinta-2); margin: 24px 0; }
+  .btn { display: inline-block; background: var(--azul); color: var(--branco); text-decoration: none; font-weight: 600;
+         padding: 15px 26px; border-radius: 6px; margin-top: 8px; }
+  .btn:hover { background: var(--tinta); }
+  footer { border-top: 1px solid var(--linha); padding: 28px 0 44px; font-size: 14px; color: var(--tinta-2); }
+  @media (max-width: 600px) { main { padding: 36px 0 48px; } h2 { margin-top: 36px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="marca" href="index.html">
+      <svg viewBox="13 -66 600 600">
+        <polygon points="30,125 190,125 350,390 320,440 215,440" stroke-width="16" stroke-linejoin="round" fill="#0042D5" stroke="#0042D5"/>
+        <polygon points="460,28 595,28 372,355 310,250" stroke-width="16" stroke-linejoin="round" fill="#FF670F" stroke="#FF670F"/>
+      </svg>
+      <span><b>Vale</b> Lance</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="rotulo">Piloto · 4 semanas grátis</div>
+  <h1>Como funciona o teste.</h1>
+  <p class="lead">Uma página só, pra não ter mal-entendido depois. Leva dois minutos.</p>
+
+  <h2>O que você recebe</h2>
+  <ul>
+    <li><b>Um alerta por dia útil, no WhatsApp</b>, com as licitações do seu ramo abertas dentro do raio que você escolher.</li>
+    <li><b>Destaque para as exclusivas de ME/EPP</b>, onde você só disputa com empresa do seu porte.</li>
+    <li><b>Aviso da hora da disputa</b>: data, hora e em qual portal (Compras.gov.br, Licitações-e do BB, BLL, Licitanet e outros), com lembrete na véspera e 1 hora antes.</li>
+    <li><b>Resumo do edital em 1 página</b>, quando você pedir: prazos, documentos exigidos e o que costuma eliminar fornecedor.</li>
+  </ul>
+
+  <h2>O que a gente pede em troca</h2>
+  <ul>
+    <li><b>Sua opinião sincera</b>, uns 5 minutos por semana. Pode ser por áudio.</li>
+    <li><b>Avisar quando vier errado</b>: licitação que não tem nada a ver, longe demais, ou alguma que a gente deixou passar. É assim que o filtro melhora.</li>
+    <li><b>Contar se você chegou a dar lance</b> em alguma. É o que mais importa pra gente saber se está funcionando.</li>
+  </ul>
+
+  <div class="caixa">
+    <h2>Regras, sem letra miúda</h2>
+    <ul>
+      <li><b>É grátis por 4 semanas.</b> Sem cartão, sem cadastro, sem contrato.</li>
+      <li><b>Sai quando quiser</b>, respondendo "sair" no WhatsApp. Nada de carência ou multa.</li>
+      <li><b>No fim das 4 semanas</b> a gente conversa sobre preço. Se não fizer sentido, acaba ali e está tudo certo.</li>
+    </ul>
+  </div>
+
+  <h2>O que a gente não faz</h2>
+  <ul class="nao">
+    <li><b>Não participamos da licitação por você.</b> A proposta, o lance e a decisão são sempre seus.</li>
+    <li><b>Não damos consultoria jurídica.</b> O resumo sempre aponta a página do edital, pra você conferir na fonte.</li>
+    <li><b>Não garantimos que você vai ganhar.</b> A gente aumenta as chances mostrando o que existe e o que exigem.</li>
+  </ul>
+
+  <h2>Seus dados</h2>
+  <ul>
+    <li><b>O que você monitora é confidencial.</b> Seu ramo, sua região e as licitações que te interessam não são compartilhados com ninguém, nem com outro participante do piloto do mesmo setor.</li>
+    <li><b>Guardamos só o necessário:</b> nome da empresa, WhatsApp, ramo, cidade e raio de entrega.</li>
+    <li><b>Não vendemos e não repassamos seus dados.</b> Nunca.</li>
+    <li><b>Você pode pedir pra apagar tudo</b> a qualquer momento, e a gente apaga.</li>
+  </ul>
+
+  <h2>De onde vêm as licitações</h2>
+  <p>Do <b>PNCP</b>, o Portal Nacional de Contratações Públicas, que é a base oficial onde a Lei 14.133 obriga os órgãos a publicar.</p>
+  <div class="aviso">
+    Para ser honesto sobre o limite: municípios com até 20 mil habitantes têm prazo até 2027 para entrar no PNCP.
+    Alguns deles ainda publicam só no site próprio, então podem não aparecer. A cobertura melhora a cada mês.
+  </div>
+
+  <h2>Para começar</h2>
+  <div class="passo"><span class="n">01</span><div><b>Responda 5 perguntas no WhatsApp</b><span>Ramo, cidade, raio de entrega, o que você mais vende e faixa de valor.</span></div></div>
+  <div class="passo"><span class="n">02</span><div><b>No dia seguinte já chega o primeiro alerta</b><span>De manhã, com o que está aberto perto de você.</span></div></div>
+  <div class="passo"><span class="n">03</span><div><b>Ajustamos na primeira semana</b><span>Veio muita coisa? A gente aperta o filtro. Veio pouca? A gente abre.</span></div></div>
+
+  <a class="btn" href="https://wa.me/5541992379327?text=Quero%20come%C3%A7ar%20o%20piloto%20do%20Vale%20Lance">Começar pelo WhatsApp</a>
+
+  <p style="margin-top:28px"><a href="index.html">← Voltar e testar com a minha cidade</a></p>
+</main>
+
+<footer>
+  <div class="wrap">
+    Vale Lance · Felipe Aggio · Dados públicos do PNCP<br>
+    Dúvidas sobre privacidade ou para apagar seus dados: fale no mesmo WhatsApp.
+  </div>
+</footer>
+</body>
+</html>
